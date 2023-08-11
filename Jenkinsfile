@@ -25,14 +25,13 @@ pipeline {
                     submoduleCfg: [],
                     userRemoteConfigs: [[credentialsId: 'repo-pw', url: "${git_repo}"]]
                 ])
-                // git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'repo-pw', path: 'hello-world-nginx/*'
                 sh 'ls -alrt'
            }
         }
         stage('Build') {
             steps {
-                sh 'sudo docker build . -t test/nginx:v0.1'
-                sh 'docker ps'
+                app = docker.build("hello-world-nginx/.")
+                sh "docker images"
             }
         }
     }
