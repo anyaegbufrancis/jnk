@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                docker.build("hello-world-nginx/.")
+                sh "docker build . -t hello-world-nginx/nginx:v0.1"
                 sh "docker images"
             }
         }
