@@ -11,45 +11,27 @@ def namespace = 'test'
 
 
 node ('master') {
-       stage ('Checkout'){
-        when {changeset "hello-world-nginx/*"}
-        steps {
-            git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'repo-pw'
+    agent any
+    stages {
+        stage('Example Build') {
+            steps {
+                echo 'Hello World'
+            }
         }
-
-   }
-    stage ('Install Dependencies'){
-        sh """
-        yarn cache clean --force
-        yarn install
-      """
+        stage('Example Deploy') {
+            when {
+                branch 'production'
+            }
+            steps {
+                echo 'Deploying'
+            }
+        }
     }
+//        stage ('Checkout'){
+//         when {changeset "hello-world-nginx/*"}
+//         steps {
+//             git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'repo-pw'
+//         }
 
-    stage ('Build Package'){
-      sh 'yarn run build'
-    }
-
-    stage ('Docker Build'){
-        sh """
-        docker build -t exampleDockerHubUser/${appName}-nginx-v0:${appMajorVersion} .
-      """
-    }
-    stage ('Docker Push DockerHUB'){
-    //     sh """
-    //     docker push exampleDockerHubUser/${appName}-nginx-v0:${appMajorVersion}
-    //   """
-           sh """
-                echo "Building..."
-              """
-    }
-
-    stage ('Deploy to Kubernetes'){
-      sh '/root/bin/kubectl get namespace'
-
-    //   sh """
-    //     kubectl apply -f ./cicd-template/deployment.yaml --namespace=${namespace} --validate=false
-    //     kubectl apply -f ./cicd-template/ingress.yaml --namespace=${namespace}
-    //   """
-    }
-
+//    }
 }
