@@ -12,7 +12,7 @@ def namespace = 'test'
 
 node ('master') {
    stage ('Checkout'){
-      git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'gitlab'
+      git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'repo-pw'
 
    }
     stage ('Install Dependencies'){
