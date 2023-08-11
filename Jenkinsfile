@@ -12,8 +12,10 @@ def namespace = 'test'
 
 node ('master') {
        stage ('Checkout'){
-        when {changeset "hello-world-nginx"}
-      git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'repo-pw'
+        when {changeset "hello-world-nginx/*"}
+        steps {
+            git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'repo-pw'
+        }
 
    }
     stage ('Install Dependencies'){
