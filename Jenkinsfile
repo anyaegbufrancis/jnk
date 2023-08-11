@@ -4,7 +4,7 @@ milestone(buildNumber)
 
 def micrositeName = ''
 def git_repo = 'https://github.com/anyaegbufrancis/DO288-apps.git'
-def git_branch = 'master'
+def git_branch = 'main'
 def appName = 'test'
 def appMajorVersion = '0.1.0'
 def namespace = 'test'
