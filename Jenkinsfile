@@ -29,13 +29,13 @@ pipeline {
                 sh 'ls -alrt'
            }
         }
-        stage('Example Deploy') {
+        stage('Build') {
             when {
-                branch 'production'
-                environment name: 'DEPLOY_TO', value: 'production'
+                branch "${git_branch}"
             }
             steps {
-                echo 'Deploying'
+                sh 'sudo docker build . -t test/nginx:v0.1'
+                sh 'docker ps'
             }
         }
     }
