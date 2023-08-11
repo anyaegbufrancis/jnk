@@ -13,9 +13,10 @@ pipeline {
     agent any
     stages {
         stage('Checkout') {
-            when {changeset "hello-world-nginx/*"}
+            // when {changeset "hello-world-nginx/*"}
             steps {
-                git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'repo-pw'
+                git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'repo-pw', path: 'hello-world-nginx/*'
+                sh 'ls -alrt'
             }
         }
         stage('Example Deploy') {
