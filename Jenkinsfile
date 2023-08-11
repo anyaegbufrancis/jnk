@@ -11,6 +11,9 @@ def namespace = 'test'
 
 pipeline {
     agent any
+    options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
     stages {
         stage('Checkout') {
             // when {changeset "hello-world-nginx/*"}
@@ -31,7 +34,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh "docker build . -t hello-world-nginx/nginx:v0.1"
-                sh "docker images"
+                // sh "docker images"
             }
         }
     }
