@@ -11,6 +11,7 @@ def namespace = 'test'
 
 pipeline {
     agent any
+    def app
     stages {
         stage('Checkout') {
             // when {changeset "hello-world-nginx/*"}
