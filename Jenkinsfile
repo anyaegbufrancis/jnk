@@ -30,9 +30,6 @@ pipeline {
            }
         }
         stage('Build') {
-            when {
-                branch "${git_branch}"
-            }
             steps {
                 sh 'sudo docker build . -t test/nginx:v0.1'
                 sh 'docker ps'
