@@ -11,7 +11,6 @@ def namespace = 'test'
 
 pipeline {
     agent any
-    def app
     stages {
         stage('Checkout') {
             // when {changeset "hello-world-nginx/*"}
@@ -31,7 +30,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                app = docker.build("hello-world-nginx/.")
+                docker.build("hello-world-nginx/.")
                 sh "docker images"
             }
         }
