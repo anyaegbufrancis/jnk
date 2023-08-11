@@ -15,9 +15,19 @@ pipeline {
         stage('Checkout') {
             // when {changeset "hello-world-nginx/*"}
             steps {
-                git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'repo-pw', path: 'hello-world-nginx/*'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: "${git_branch}"]],
+                    doGenerateSubmoduleConfigurations: false, 
+                    extensions: [[$class: 'CleanCheckout'],
+                    [$class: 'SparseCheckoutPaths',
+                    sparseCheckoutPaths: [[path: 'hello-world-nginx']]]],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[credentialsId: 'repo-pw', url: "${git_repo}"]]
+                ])
+                // git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'repo-pw', path: 'hello-world-nginx/*'
                 sh 'ls -alrt'
-            }
+           }
         }
         stage('Example Deploy') {
             when {
