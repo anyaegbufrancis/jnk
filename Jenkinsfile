@@ -9,8 +9,7 @@ def appName = 'test'
 def appMajorVersion = '0.1.0'
 def namespace = 'test'
 
-
-node ('master') {
+pipeline {
     agent any
     stages {
         stage('Example Build') {
@@ -21,12 +20,15 @@ node ('master') {
         stage('Example Deploy') {
             when {
                 branch 'production'
+                environment name: 'DEPLOY_TO', value: 'production'
             }
             steps {
                 echo 'Deploying'
             }
         }
     }
+}
+
 //        stage ('Checkout'){
 //         when {changeset "hello-world-nginx/*"}
 //         steps {
@@ -34,4 +36,3 @@ node ('master') {
 //         }
 
 //    }
-}
