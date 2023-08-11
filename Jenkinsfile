@@ -12,9 +12,10 @@ def namespace = 'test'
 pipeline {
     agent any
     stages {
-        stage('Example Build') {
+        stage('Checkout') {
+            when {changeset "hello-world-nginx/*"}
             steps {
-                echo 'Hello World'
+                git url: "${git_repo}", branch: "${git_branch}", credentialsId: 'repo-pw'
             }
         }
         stage('Example Deploy') {
