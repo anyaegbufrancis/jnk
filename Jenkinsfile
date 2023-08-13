@@ -7,7 +7,7 @@ def gitBranch = 'master'
 def appDomain = 'rhdemolab.com'
 
 pipeline {
-     agent {
+    agent {
     node {
       label 'nodejs' 
     }
