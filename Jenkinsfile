@@ -1,4 +1,4 @@
-def projectName = 'demo-nginx'
+def projectName = 'nginx-demo'
 def appName = 'nginx01'
 def gitUrl = 'https://github.com/anyaegbufrancis/jnk.git'
 def gitFolder = 'dev'
@@ -20,13 +20,13 @@ pipeline {
                     steps {
                         script {
                             openshift.withCluster() {
-                                if !openshift.withProject("${projectName}") {
+                                if (openshift.selector("project", "${projectName}").exists()) {
+                                    openshift.withProject("${projectName}") {
+                                    echo "Using project: ${openshift.project(projectName)}"
+                                } else {
                                     echo("Creating project: ${projectName}")
                                     openshift.newProject("${projectName}")
                                     echo "Project: ${projectName} created!"
-                                } else {
-                                    openshift.withProject("${projectName}") {
-                                    echo "Using project: ${openshift.project(projectName)}"
                                     }
                                 }
                             }
