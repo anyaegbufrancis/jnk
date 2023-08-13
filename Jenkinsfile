@@ -1,12 +1,12 @@
 
+def projectName = 'nginx-demo'
+def appName = 'nginx01'
+def gitUrl = 'https://github.com/anyaegbufrancis/jnk.git'
+def gitFolder = 'dev'
+def gitBranch = 'master'
+def appDomain = 'rhdemolab.com'
 
 pipeline {
-    def projectName = 'nginx-demo'
-    def appName = 'nginx01'
-    def gitUrl = 'https://github.com/anyaegbufrancis/jnk.git'
-    def gitFolder = 'dev'
-    def gitBranch = 'master'
-    def appDomain = 'rhdemolab.com'
     agent {
       node {
         label 'nodejs'
