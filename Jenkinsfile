@@ -9,7 +9,7 @@ def appDomain = 'rhdemolab.com'
 pipeline {
     agent {
       node {
-        label 'nodejs'
+        label 'base'
       }
     }
     options {
