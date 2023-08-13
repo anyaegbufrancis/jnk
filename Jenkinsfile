@@ -71,9 +71,9 @@ pipeline {
                                 openshift.raw("create", "route", "edge", "--service=${appName}", "--hostname ${appName}.${appDomain}", "--name=${appName}", "--insecure-policy=Redirect")                                        
                             }
                         }
-                        }
-                        } 
-                }
+                    }
+                } 
+            }
         }
     }
 }
