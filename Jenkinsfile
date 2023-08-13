@@ -33,14 +33,14 @@ pipeline {
                 }
 
                 stage('cleanup') {
-                    steps {
-                        script {
+                    // steps {
+                    //     script {
                             openshift.withCluster() {
-                                openshift.withProject() {
+                                openshift.withProject("${projectName}") {
                                     openshift.selector("bc", "${appName}").startBuild("--wait")
                                 }
-                            }
-                        } 
+                        //     }
+                        // } 
                     } 
                 } 
 
