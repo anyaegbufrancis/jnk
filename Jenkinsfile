@@ -26,19 +26,18 @@ pipeline {
                         }
                     }
                 }  
-        }
-        
-        stage('cleanup') {
-            steps {
-                script {
-                    openshift.withCluster() {
-                        openshift.withProject("${projectName}") {
-                            openshift.selector("bc", "${appName}").startBuild("--wait")
-                        }
-                    }
-                } 
-            } 
-        }
+        }        
+        // stage('cleanup') {
+        //     steps {
+        //         script {
+        //             openshift.withCluster() {
+        //                 openshift.withProject("${projectName}") {
+        //                     openshift.selector("bc", "${appName}").startBuild("--wait")
+        //                 }
+        //             }
+        //         } 
+        //     } 
+        // }
         stage('deploy') {
             when {
                 expression {
