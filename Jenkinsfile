@@ -8,9 +8,6 @@ def appDomain = 'rhdemolab.com'
 
 pipeline {
     agent any
-    options {
-        timeout(time: 2, unit: 'MINUTES')
-    }
     stages {
         stage('preamble') {
             steps {
@@ -22,9 +19,9 @@ pipeline {
                             echo("Creating project: ${projectName}")
                             openshift.newProject("${projectName}")
                             echo "Project: ${projectName} created!"
-                            }
                         }
                     }
+                }
             }  
         }
         stage('deploy') {
