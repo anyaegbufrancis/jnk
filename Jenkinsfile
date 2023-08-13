@@ -14,7 +14,6 @@ pipeline {
             options {
                 timeout(time: 2, unit: 'MINUTES')
             }
-
             stages {
                 stage('preamble') {
                     steps {
@@ -37,7 +36,7 @@ pipeline {
                     steps {
                         script {
                             openshift.withCluster() {
-                                openshift.withProject(projectName) {
+                                openshift.withProject("${projectName}") {
                                     openshift.selector("bc", ${appName}).startBuild("--wait")
                                 }
                             }
@@ -49,14 +48,14 @@ pipeline {
                     when {
                         expression {
                             openshift.withCluster () {
-                                return !openshift.selector("dc", ${appName}).exists()
+                                return !openshift.selector("dc", "${appName}").exists()
                             }
                         }
                     }
                     steps {
                         script {
                             openshift.withCluster() {
-                                openshift.withProject() {
+                                openshift.withProject("${projectName}") {
                                     echo "Deploying App: ${appName}"
                                     def created = openshift.newApp("${gitUrl}#${gitBranch}", "--strategy=dev/Dockerfile", "--name=${gitUrl}", "--context-dir=${gitFolder}")
                                     def builds = created.related('builds')
