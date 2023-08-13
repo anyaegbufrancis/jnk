@@ -7,11 +7,7 @@ def gitBranch = 'master'
 def appDomain = 'rhdemolab.com'
 
 pipeline {
-    agent {
-    node {
-      label 'nodejs' 
-    }
-    }
+    agent any
     options {
         timeout(time: 2, unit: 'MINUTES')
     }
