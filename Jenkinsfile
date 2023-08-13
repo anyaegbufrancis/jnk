@@ -21,8 +21,7 @@ pipeline {
                         script {
                             openshift.withCluster() {
                                 if (openshift.selector("project", "${projectName}").exists()) {
-                                    openshift.withProject("${projectName}") {
-                                    echo "Using project: ${openshift.project(projectName)}"
+                                    echo "Project: ${openshift.project(projectName)} already exists!"
                                 } else {
                                     echo("Creating project: ${projectName}")
                                     openshift.newProject("${projectName}")
