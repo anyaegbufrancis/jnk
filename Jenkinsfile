@@ -1,7 +1,7 @@
 def projectName = 'demo-nginx'
 def appName = 'nginx01'
-def gitUrl = 'https://github.com/anyaegbufrancis/DO288-apps.git'
-def gitFolder = 'hello-world-nginx'
+def gitUrl = 'https://github.com/anyaegbufrancis/jnk.git'
+def gitFolder = 'dev'
 def gitBranch = 'master'
 def appDomain = 'rhdemolab.com'
 
