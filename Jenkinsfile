@@ -39,24 +39,21 @@ pipeline {
         //     } 
         // }
         stage('deploy') {
-            when {
-                expression {
-                    openshift.withCluster () {
-                        return !openshift.selector("dc", "${appName}").exists()
-                    }
-                }
-            }
             steps {
                 script {
                     openshift.withCluster() {
                         openshift.withProject("${projectName}") {
-                            echo "Deploying App: ${appName}"
-                            def created = openshift.newApp("${gitUrl}#${gitBranch}", "--strategy=dev/Dockerfile", "--name=${gitUrl}", "--context-dir=${gitFolder}")
-                            def builds = created.related('builds')
-                            builds.untilEach(1) {
+                            if (openshift.selector("dc", "${appName}").exists()) {
+                                echo "Deploymentconfig: ${openshift.deploymentconfig(appName)} already exists!"
+                                openshift.selector("bc", "${appName}").startBuild("--wait")
+                            } else {
+                                echo "Deploying App: ${appName}"
+                                def created = openshift.newApp("${gitUrl}#${gitBranch}", "--strategy=dev/Dockerfile", "--name=${gitUrl}", "--context-dir=${gitFolder}")
+                                def builds = created.related('builds')
+                                builds.untilEach(1) {
                                 return it.object().status.phase == "Complete"
+                                }                            
                             }
-                        }
                     }
                 }
             }
