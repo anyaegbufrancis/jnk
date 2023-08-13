@@ -36,7 +36,7 @@ pipeline {
                     steps {
                         script {
                             openshift.withCluster() {
-                                openshift.withProject("${projectName}") {
+                                openshift.withProject() {
                                     openshift.selector("bc", "${appName}").startBuild("--wait")
                                 }
                             }
