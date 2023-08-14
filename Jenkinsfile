@@ -17,7 +17,6 @@ pipeline {
                             def project = openshift.selector("project/${projectName}")
                             if (project.exists()) {
                                 echo "${projectName} exists"
-                                testProject.delete()
                             } else {
                                 echo("Creating project: ${projectName}")
                                 openshift.newProject("${projectName}")
