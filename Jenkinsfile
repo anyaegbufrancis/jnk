@@ -60,7 +60,7 @@ pipeline {
                             //     return (it.object().status.phase == "Running")
                             // }
                             if (dc.exists()) {
-                                echo dc
+                                echo "${dc}"
                             }
                         }
                     }
