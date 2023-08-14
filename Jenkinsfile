@@ -49,21 +49,22 @@ pipeline {
                 }
             }
         }
-        // stage('route') {
-        //     steps {
-        //         script { 
-        //             openshift.withCluster() {
-        //                 openshift.withProject() {
-        //                     if (openshift.selector("route", "${appName}").exists()) {
-        //                         openshift.selector("route", "${appName}").delete()
-        //                         openshift.raw("create", "route", "edge", "--service=${appName}", "--hostname ${appName}.${appDomain}", "--name=${appName}", "--insecure-policy=Redirect")
-        //                     } else {
-        //                         openshift.raw("create", "route", "edge", "--service=${appName}", "--hostname ${appName}.${appDomain}", "--name=${appName}", "--insecure-policy=Redirect")                                        
-        //                     }
-        //                 }
-        //             }
-        //         } 
-        //     }
-        // }
+        stage('route') {
+            steps {
+                script { 
+                    openshift.withCluster() {
+                        openshift.withProject("${projectName}") {
+                            def route = openshift.selector("route/${appName}")
+                            if (route.exists()) {
+                                openshift.selector("route", "${appName}").delete()
+                                openshift.raw("create", "route", "edge", "--service=${appName}", "--hostname ${appName}.${appDomain}", "--name=${appName}", "--insecure-policy=Redirect")
+                            } else {
+                                openshift.raw("create", "route", "edge", "--service=${appName}", "--hostname ${appName}.${appDomain}", "--name=${appName}", "--insecure-policy=Redirect")                                        
+                            }
+                        }
+                    }
+                } 
+            }
+        }
     }
 }
