@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     openshift.withCluster() {
-                        if (openshift.selector("project", "${projectName}").exists()) {
+                        if (openshift.selector("project/${projectName}").exists()) {
                             echo "Project: ${openshift.project(projectName)} already exists!"
                         } else {
                             echo("Creating project: ${projectName}")
