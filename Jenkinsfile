@@ -13,9 +13,12 @@ pipeline {
             steps {
                 script {
                     openshift.withCluster() {
-                        openshift.withProject("${projectName}") {
-                            echo "Project: ${openshift.project(projectName)} already exists!"
-                            echo "Project: ${projectName} created!"
+                          openshift.withProject('default') {
+                            def testProject = openshift.selector("project/${projectName}")
+                            if (deviceCenterProject.exists()) {
+                                echo "${projectName} exists"
+                                testProject.delete()
+                            }
                         }
                         // if (openshift.selector("project", "${projectName}").exists()) {
                         //     echo "Project: ${openshift.project(projectName)} already exists!"
