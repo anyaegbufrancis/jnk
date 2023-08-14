@@ -54,8 +54,8 @@ pipeline {
             steps {
                 script {
                     openshift.withCluster() {
-                        openshift.withProject() {
-                            def dc = openshift.selector("deploymentconfig/${appName}").rollout()
+                        openshift.withProject("${projectName}") {
+                            def dc = openshift.selector("deployment/${appName}").rollout()
                             openshift.selector("dc/${appName}").related('pods').untilEach(1) {
                                 return (it.object().status.phase == "Running")
                             }
