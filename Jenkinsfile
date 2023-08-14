@@ -5,7 +5,7 @@ def gitUrl = 'https://github.com/anyaegbufrancis/jnk.git'
 def gitFolder = 'dev'
 def gitBranch = 'master'
 def appDomain = 'rhdemolab.com'
-def appEndpoint = 'arc'
+def appEndpoint = 'cars'
 
 pipeline {
     agent any
