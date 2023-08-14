@@ -33,8 +33,8 @@ pipeline {
                 script {
                     openshift.withCluster() {
                         openshift.withProject("${projectName}") {
-                            def dc = openshift.selector("buildconfigs/${appName}")
-                            if (dc.exists()) {
+                            def bc = openshift.selector("buildconfigs/${appName}")
+                            if (bc.exists()) {
                                 echo "Buildconfig: buildconfig/${appName} already exists!"
                                 openshift.selector("bc", "${appName}").startBuild("--wait")
                             } else {
@@ -49,6 +49,21 @@ pipeline {
                     }
                 }
             }
+        }
+        stage('deploy') {
+            steps {
+                script {
+                    openshift.withCluster() {
+                        openshift.withProject() {
+                            def dc = openshift.selector("dc", "").rollout()
+                            def dc = openshift.selector("deploymentconfig/${appName}").rollout()
+                            openshift.selector("dc/${appName}").related('pods').untilEach(1) {
+                                return (it.object().status.phase == "Running")
+                            }
+                        }
+                    }
+                }
+            } 
         }
         stage('route') {
             steps {
