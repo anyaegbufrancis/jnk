@@ -18,6 +18,10 @@ pipeline {
                             if (project.exists()) {
                                 echo "${projectName} exists"
                                 testProject.delete()
+                            } else {
+                                echo("Creating project: ${projectName}")
+                                openshift.newProject("${projectName}")
+                                echo "Project: ${projectName} created!"
                             }
                         }
                         // if (openshift.selector("project", "${projectName}").exists()) {
