@@ -39,7 +39,7 @@ pipeline {
                                 openshift.selector("bc", "${appName}").startBuild("--wait")
                             } else {
                                 echo "Deploying App: ${appName}"
-                                def created = openshift.newApp("${gitUrl}#${gitBranch}", "--strategy=docker", "--name=${appName}", "--context-dir=${gitFolder}", "-as-deployment-config")
+                                def created = openshift.newApp("${gitUrl}#${gitBranch}", "--strategy=docker", "--name=${appName}", "--context-dir=${gitFolder}", "--as-deployment-config")
                                 def builds = created.related('builds')
                                 builds.untilEach(1) {
                                     return it.object().status.phase == "Complete"
