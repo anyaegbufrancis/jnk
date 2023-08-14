@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     openshift.withCluster() {
-                        openshift.withProject("${projectName}") {
+                        openshift.withProject() {
                             if (openshift.selector("dc", "${appName}").exists()) {
                                 echo "Deploymentconfig: ${openshift.deploymentconfig(appName)} already exists!"
                                 openshift.selector("bc", "${appName}").startBuild("--wait")
@@ -37,7 +37,7 @@ pipeline {
                                 def created = openshift.newApp("${gitUrl}#${gitBranch}", "--strategy=dev/Dockerfile", "--name=${gitUrl}", "--context-dir=${gitFolder}")
                                 def builds = created.related('builds')
                                 builds.untilEach(1) {
-                                return it.object().status.phase == "Complete"
+                                    return it.object().status.phase == "Complete"
                                 }                            
                             }
                         }
@@ -49,7 +49,7 @@ pipeline {
             steps {
                 script { 
                     openshift.withCluster() {
-                        openshift.withProject("${projectName}") {
+                        openshift.withProject() {
                             if (openshift.selector("route", "${appName}").exists()) {
                                 openshift.selector("route", "${appName}").delete()
                                 openshift.raw("create", "route", "edge", "--service=${appName}", "--hostname ${appName}.${appDomain}", "--name=${appName}", "--insecure-policy=Redirect")
