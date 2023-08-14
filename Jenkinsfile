@@ -32,7 +32,7 @@ pipeline {
                 script {
                     openshift.withCluster() {
                         openshift.withProject("${projectName}") {
-                            def dc = openshift.selector("deploymentconfig/${appName}")
+                            def dc = openshift.selector("buildconfigs/${appName}")
                             if (dc.exists()) {
                                 echo "Deploymentconfig: ${openshift.deploymentconfig(appName)} already exists!"
                                 openshift.selector("bc", "${appName}").startBuild("--wait")
