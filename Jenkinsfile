@@ -5,7 +5,7 @@ def gitUrl = 'https://github.com/anyaegbufrancis/jnk.git'
 def gitFolder = 'dev'
 def gitBranch = 'master'
 def appDomain = 'rhdemolab.com'
-def appEndpoint = 'cars'
+def appEndpoint = 'home'
 
 pipeline {
     agent any
@@ -57,12 +57,16 @@ pipeline {
                         openshift.withProject("${projectName}") {
                             def route = openshift.selector("route/${appName}")
                             if (route.exists()) {
+                                echo "Deleting route: ${appName}"
                                 openshift.selector("route", "${appName}").delete()
+                                echo "Re-creating route: ${appName}"
                                 openshift.raw("create", "route", "edge", "${appName}", "--service=${appName}", "--hostname ${appEndpoint}.${appDomain}",  "--insecure-policy=Redirect")
                             } else {
+                                echo "Creating Route: ${appName}"
                                 openshift.raw("create", "route", "edge", "${appName}", "--service=${appName}", "--hostname ${appEndpoint}.${appDomain}",  "--insecure-policy=Redirect")                                        
                             }
                         }
+                        echo "Connect to app on: ${appEndpoint}.${appDomain}"
                     }
                 } 
             }
