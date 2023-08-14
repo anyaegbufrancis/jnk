@@ -14,8 +14,8 @@ pipeline {
                 script {
                     openshift.withCluster() {
                           openshift.withProject('default') {
-                            def testProject = openshift.selector("project/${projectName}")
-                            if (deviceCenterProject.exists()) {
+                            def project = openshift.selector("project/${projectName}")
+                            if (project.exists()) {
                                 echo "${projectName} exists"
                                 testProject.delete()
                             }
