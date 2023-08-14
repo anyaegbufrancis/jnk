@@ -50,23 +50,6 @@ pipeline {
                 }
             }
         }
-        stage('run pods') {
-            steps {
-                script {
-                    openshift.withCluster() {
-                        openshift.withProject("${projectName}") {
-                            def dc = openshift.selector("deployment/${appName}")
-                            // openshift.selector("deployment/${appName}").related('pods').untilEach(1) {
-                            //     return (it.object().status.phase == "Running")
-                            // }
-                            if (dc.exists()) {
-                                echo "${dc}"
-                            }
-                        }
-                    }
-                }
-            } 
-        }
         stage('publish route') {
             steps {
                 script { 
