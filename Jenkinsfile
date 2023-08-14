@@ -28,7 +28,7 @@ pipeline {
                 }
             }  
         }
-        stage('deploy') {
+        stage('deploy app') {
             steps {
                 script {
                     openshift.withCluster() {
@@ -50,7 +50,7 @@ pipeline {
                 }
             }
         }
-        stage('deploy') {
+        stage('run pods') {
             steps {
                 script {
                     openshift.withCluster() {
@@ -64,7 +64,7 @@ pipeline {
                 }
             } 
         }
-        stage('route') {
+        stage('publish route') {
             steps {
                 script { 
                     openshift.withCluster() {
