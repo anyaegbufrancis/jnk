@@ -43,7 +43,7 @@ pipeline {
                                 def builds = created.related('builds')
                                 builds.untilEach(1) {
                                     return it.object().status.phase == "Complete"
-                                }                            
+                                }                          
                             }
                         }
                     }
@@ -55,8 +55,8 @@ pipeline {
                 script {
                     openshift.withCluster() {
                         openshift.withProject("${projectName}") {
-                            def dc = openshift.selector("deployment/${appName}").rollout()
-                            openshift.selector("dc/${appName}").related('pods').untilEach(1) {
+                            // def dc = openshift.selector("deployment/${appName}")
+                            openshift.selector("deployment/${appName}").related('pods').untilEach(1) {
                                 return (it.object().status.phase == "Running")
                             }
                         }
