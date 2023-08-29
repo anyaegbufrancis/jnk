@@ -4,7 +4,7 @@ def appName = 'nginx01'
 def gitUrl = 'https://github.com/anyaegbufrancis/jnk.git'
 def gitFolder = 'dev'
 def gitBranch = 'master'
-def appDomain = 'rhdemolab.com'
+def appDomain = 'apps.p4obwpoi.eastus2.aroapp.io'
 def appEndpoint = 'cars'
 
 pipeline {
